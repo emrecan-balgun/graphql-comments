@@ -15,26 +15,42 @@ const typeDefs = gql`
         user_id: ID!
     }
 
-    type Comments{
+    type Comment{
         id: ID!
         text: String!
         post_id: ID!
     }
 
     type Query{
+        # User
         users: [User!]!
+        user(id: ID!): User!
+
+        # Post
         posts: [Post!]!
-        comments: [Comments!]!
+        post(id: ID!): Post!
+
+        # Comment
+        comments: [Comment!]!
+        comment(id: ID!): Comment!
     }
-`
+`;
 
 const resolvers = {
     Query: {
+        // User
         users: () => users,
+        user: (parent, args) => users.find((user) => user.id === args.id),
+
+        // Post
         posts: () => posts,
+        post: (parent, args) => posts.find(post => post.id === args.id),
+
+        // Comments
         comments: () => comments,
+        comment: (parent, args) => comments.find(comment => comment.id === args.id),
     },
-}
+};
 
 const server = new ApolloServer({            
     typeDefs,
