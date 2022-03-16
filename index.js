@@ -8,6 +8,7 @@ const typeDefs = gql`
         id: ID!
         fullName: String!
         posts: [Post!]!
+        comments: [Comment!]!
     }
 
     type Post{
@@ -58,7 +59,9 @@ const resolvers = {
     },
 
     User: {
-        posts: (parent) => posts.filter((post) => post.user_id === parent.id)
+        posts: (parent) => posts.filter((post) => post.user_id === parent.id),
+
+        comments: (parent) => comments.filter((comment) => comment.user_id === parent.id)
     },
 
     Post: {
