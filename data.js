@@ -49,3 +49,9 @@ const comments = [
         post_id: "3"
     }
 ]
+
+module.exports = {
+    users,
+    posts,
+    comments
+}
