@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { users, posts, comments } = require('./data');
 
 const typeDefs = gql`
 
