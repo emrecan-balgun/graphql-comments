@@ -30,23 +30,27 @@ const posts = [
 const comments = [
     {
         id: "1",
-        text: "Lorem ipsum",
-        post_id: "1"
+        text: "Emrenin yorumu",
+        post_id: "1",
+        user_id: "1"
     },
     {
         id: "2",
-        text: "Lorem ipsum doler",
-        post_id: "1"
+        text: "Emrenin diger yorumu",
+        post_id: "1",
+        user_id: "1"
     },
     {
         id: "3",
-        text: "Foo bar",
-        post_id: "2"
+        text: "Emrenin diger yorumu",
+        post_id: "2",
+        user_id: "1"
     },
     {
         id: "4",
-        text: "Foo bar baz",
-        post_id: "3"
+        text: "Mehmetin yorumu",
+        post_id: "3",
+        user_id: "2"
     }
 ]
 
