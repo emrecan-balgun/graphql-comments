@@ -104,12 +104,12 @@ const resolvers = {
     },
 
     Mutation: {
-        createUser: (parent, { data: { fullName } }) => {
+        createUser: (parent, { data }) => {
 
             const user = { 
                 id: nanoid(), 
                 // fullName: args.data.fullName 
-                fullName
+                ...data
             }
 
             users.push(user);
@@ -118,12 +118,11 @@ const resolvers = {
             return user;
         },
 
-        createPost: (parent, { data: { title, user_id } }) => {
+        createPost: (parent, { data }) => {
 
             const post = {
                 id: nanoid(),
-                title,
-                user_id
+                ...data
             }
 
             posts.push(post);
@@ -131,12 +130,10 @@ const resolvers = {
             return post;
         },
 
-        createComment: (parent, { data: { text, post_id, user_id } }) => {
+        createComment: (parent, { data }) => {
             const comment = {
                 id: nanoid(),
-                text,
-                post_id,
-                user_id
+                ...data
             }
 
             comments.push(comment);
