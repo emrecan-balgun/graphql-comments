@@ -6,6 +6,8 @@ const { nanoid } = require('nanoid');
 const { users, posts, comments } = require('./data');
 
 const typeDefs = gql`
+
+    # User
     type User{
         id: ID!
         fullName: String!
@@ -13,6 +15,22 @@ const typeDefs = gql`
         comments: [Comment!]!
     }
 
+    input createUserInput {
+        fullName: String!
+    }
+
+    input createPostInput {
+        title: String!
+        user_id: ID!
+    }
+
+    input createCommentInput {
+        text: String! 
+        post_id: ID!
+        user_id: ID!
+    }
+
+    # Post
     type Post{
         id: ID!
         title: String!
@@ -21,6 +39,7 @@ const typeDefs = gql`
         comments: [Comment!]!
     }
 
+    # Comment
     type Comment{
         id: ID!
         text: String!
@@ -45,9 +64,9 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        createUser(fullName: String!): User!
-        createPost(title: String!, user_id: ID!): Post!
-        createComment(text: String!, post_id: ID!, user_id: ID!): Comment!
+        createUser(data: createUserInput!): User!
+        createPost(data: createPostInput!): Post!
+        createComment(data: createCommentInput!): Comment!
     }
 `;
 
@@ -85,11 +104,11 @@ const resolvers = {
     },
 
     Mutation: {
-        createUser: (parent, { fullName }) => {
+        createUser: (parent, { data: { fullName } }) => {
 
             const user = { 
                 id: nanoid(), 
-                // fullName: args.fullName 
+                // fullName: args.data.fullName 
                 fullName
             }
 
@@ -99,7 +118,7 @@ const resolvers = {
             return user;
         },
 
-        createPost: (parent, { title, user_id }) => {
+        createPost: (parent, { data: { title, user_id } }) => {
 
             const post = {
                 id: nanoid(),
@@ -112,7 +131,7 @@ const resolvers = {
             return post;
         },
 
-        createComment: (parent, { text, post_id, user_id }) => {
+        createComment: (parent, { data: { text, post_id, user_id } }) => {
             const comment = {
                 id: nanoid(),
                 text,
