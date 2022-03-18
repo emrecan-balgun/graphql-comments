@@ -1,11 +1,13 @@
 const users = [
     {
         id: "1",
-        fullName: "Emrecan Balgun"
+        fullName: "Emrecan Balgun",
+        age: 23
     },
     {
         id: "2",
-        fullName: "Mehmet Seven"
+        fullName: "Mehmet Seven",
+        age: 29
     }
 ]
 

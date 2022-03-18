@@ -11,24 +11,21 @@ const typeDefs = gql`
     type User{
         id: ID!
         fullName: String!
+        age: Int!
         posts: [Post!]!
         comments: [Comment!]!
     }
 
     input createUserInput {
         fullName: String!
+        age: Int!
     }
 
-    input createPostInput {
-        title: String!
-        user_id: ID!
+    input UpdateUserInput {
+        fullName: String
+        age: Int
     }
 
-    input createCommentInput {
-        text: String! 
-        post_id: ID!
-        user_id: ID!
-    }
 
     # Post
     type Post{
@@ -39,6 +36,11 @@ const typeDefs = gql`
         comments: [Comment!]!
     }
 
+    input createPostInput {
+        title: String!
+        user_id: ID!
+    }
+
     # Comment
     type Comment{
         id: ID!
@@ -47,6 +49,12 @@ const typeDefs = gql`
         user: User!
         post: Post!
 
+    }
+
+    input createCommentInput {
+        text: String! 
+        post_id: ID!
+        user_id: ID!
     }
 
     type Query{
@@ -64,8 +72,14 @@ const typeDefs = gql`
     }
 
     type Mutation {
+        # User
         createUser(data: createUserInput!): User!
+        updateUser(id: ID!, data: UpdateUserInput!): User!
+
+        # Post
         createPost(data: createPostInput!): Post!
+
+        # Comment
         createComment(data: createCommentInput!): Comment!
     }
 `;
@@ -104,6 +118,7 @@ const resolvers = {
     },
 
     Mutation: {
+        // User
         createUser: (parent, { data }) => {
 
             const user = { 
@@ -118,6 +133,22 @@ const resolvers = {
             return user;
         },
 
+        updateUser: (parent, { id, data }) => {
+            const user_index = users.findIndex(user => user.id === id)
+
+             if(user_index === -1) {
+                 throw new Error('User not found')
+             }
+
+             const updated_user = users[user_index] = {
+                 ...users[user_index],
+                 ...data
+             }
+
+             return updated_user;
+        },
+
+        // Post
         createPost: (parent, { data }) => {
 
             const post = {
@@ -130,6 +161,7 @@ const resolvers = {
             return post;
         },
 
+        // Comment
         createComment: (parent, { data }) => {
             const comment = {
                 id: nanoid(),
