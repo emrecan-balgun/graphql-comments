@@ -46,6 +46,7 @@ const typeDefs = gql`
 
     type Mutation {
         createUser(fullName: String!): User!
+        createPost(title: String!, user_id: ID!): Post!
     }
 `;
 
@@ -83,17 +84,31 @@ const resolvers = {
     },
 
     Mutation: {
-        createUser: (parent, args) => {
+        createUser: (parent, { fullName }) => {
 
             const user = { 
                 id: nanoid(), 
-                fullName: args.fullName 
+                // fullName: args.fullName 
+                fullName
             }
 
             users.push(user);
 
 
             return user;
+        },
+
+        createPost: (parent, { title, user_id }) => {
+
+            const post = {
+                id: nanoid(),
+                title,
+                user_id
+            }
+
+            posts.push(post);
+
+            return post;
         }
     }
 };
