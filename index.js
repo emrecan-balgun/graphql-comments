@@ -1,6 +1,8 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 
+const { nanoid } = require('nanoid');
+
 const { users, posts, comments } = require('./data');
 
 const typeDefs = gql`
@@ -41,6 +43,10 @@ const typeDefs = gql`
         comments: [Comment!]!
         comment(id: ID!): Comment!
     }
+
+    type Mutation {
+        createUser(fullName: String!): Boolean!
+    }
 `;
 
 const resolvers = {
@@ -74,6 +80,14 @@ const resolvers = {
         user: (parent) => users.find((user) => user.id === parent.user_id),
 
         post: (parent) => posts.find((post) => post.id === parent.post_id)
+    },
+
+    Mutation: {
+        createUser: (parent, args) => {
+            users.push({ id: nanoid(), fullName: args.fullName })
+
+            return true;
+        }
     }
 };
 
