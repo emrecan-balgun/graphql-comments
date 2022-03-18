@@ -47,6 +47,7 @@ const typeDefs = gql`
     type Mutation {
         createUser(fullName: String!): User!
         createPost(title: String!, user_id: ID!): Post!
+        createComment(text: String!, post_id: ID!, user_id: ID!): Comment!
     }
 `;
 
@@ -109,7 +110,20 @@ const resolvers = {
             posts.push(post);
 
             return post;
-        }
+        },
+
+        createComment: (parent, { text, post_id, user_id }) => {
+            const comment = {
+                id: nanoid(),
+                text,
+                post_id,
+                user_id
+            }
+
+            comments.push(comment);
+
+            return comment;
+        } 
     }
 };
 
