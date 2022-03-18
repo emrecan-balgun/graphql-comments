@@ -41,6 +41,11 @@ const typeDefs = gql`
         user_id: ID!
     }
 
+    input UpdatePostInput {
+        title: String
+        user_id: ID
+    }
+
     # Comment
     type Comment{
         id: ID!
@@ -78,6 +83,7 @@ const typeDefs = gql`
 
         # Post
         createPost(data: createPostInput!): Post!
+        updatePost(id: ID!, data: UpdatePostInput!): Post!
 
         # Comment
         createComment(data: createCommentInput!): Comment!
@@ -159,6 +165,20 @@ const resolvers = {
             posts.push(post);
 
             return post;
+        },
+        updatePost: (parent, { id, data }) => {
+            const post_index = posts.findIndex(post => post.id === id)
+
+            if(post_index === -1) {
+                throw new Error ('Post not found')
+            }
+
+            const updated_post = posts[post_index] = {
+                ...posts[post_index],
+                ...data
+            }
+
+            return updated_post;
         },
 
         // Comment
