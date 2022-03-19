@@ -99,6 +99,7 @@ const typeDefs = gql`
         createPost(data: createPostInput!): Post!
         updatePost(id: ID!, data: UpdatePostInput!): Post!
         deletePost(id: ID!): Post!
+        deleteAllPosts: DeleteAllOutput!
 
         # Comment
         createComment(data: createCommentInput!): Comment!
@@ -155,7 +156,6 @@ const resolvers = {
 
             return user;
         },
-
         updateUser: (parent, { id, data }) => {
             const user_index = users.findIndex(user => user.id === id)
 
@@ -170,7 +170,6 @@ const resolvers = {
 
              return updated_user;
         },
-
         deleteUser: (parent, { id }) => {
             const user_index = users.findIndex(user => user.id === id)
 
@@ -184,7 +183,6 @@ const resolvers = {
 
             return deleted_user;
         },
-
         deleteAllUsers: () => {
             const length = users.length
             users.splice(0, length)
@@ -232,6 +230,14 @@ const resolvers = {
             posts.splice(post_index, 1)
 
             return deleted_post;
+        },
+        deleteAllPosts: () => {
+            const length = posts.length
+            posts.splice(0, length)
+
+            return {
+                count: length,
+            }
         },
 
         // Comment
