@@ -86,6 +86,7 @@ const typeDefs = gql`
         # User
         createUser(data: createUserInput!): User!
         updateUser(id: ID!, data: UpdateUserInput!): User!
+        deleteUser(id: ID!): User!
 
         # Post
         createPost(data: createPostInput!): Post!
@@ -159,6 +160,20 @@ const resolvers = {
              }
 
              return updated_user;
+        },
+
+        deleteUser: (parent, { id }) => {
+            const user_index = users.findIndex(user => user.id === id)
+
+            if(user_index === -1) {
+                throw new Error("User not found")
+            }
+
+            const deleted_user = users[user_index]
+            
+            users.splice(user_index, 1)
+
+            return deleted_user;
         },
 
         // Post
