@@ -68,6 +68,12 @@ const typeDefs = gql`
         user_id: ID
     }
 
+    # Delete All Output
+    type DeleteAllOutput {
+        count: Int!
+    }
+
+    # Query
     type Query{
         # User
         users: [User!]!
@@ -87,6 +93,7 @@ const typeDefs = gql`
         createUser(data: createUserInput!): User!
         updateUser(id: ID!, data: UpdateUserInput!): User!
         deleteUser(id: ID!): User!
+        deleteAllUsers: DeleteAllOutput!
 
         # Post
         createPost(data: createPostInput!): Post!
@@ -176,6 +183,15 @@ const resolvers = {
             users.splice(user_index, 1)
 
             return deleted_user;
+        },
+
+        deleteAllUsers: () => {
+            const length = users.length
+            users.splice(0, length)
+
+            return {
+                count: length,
+            }
         },
 
         // Post
