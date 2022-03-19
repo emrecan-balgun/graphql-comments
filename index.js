@@ -105,6 +105,7 @@ const typeDefs = gql`
         createComment(data: createCommentInput!): Comment!
         updateComment(id: ID!, data: UpdateCommentInput!): Comment!
         deleteComment(id: ID!): Comment!
+        deleteAllComments: DeleteAllOutput!
     }
 `;
 
@@ -277,6 +278,14 @@ const resolvers = {
             comments.splice(comment_index, 1)
 
             return deleted_comment;
+        },
+        deleteAllComments: () => {
+            const length = comments.length
+            comments.splice(0, length)
+
+            return {
+                count: length,
+            }
         },
     }
 };
