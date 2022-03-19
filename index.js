@@ -91,6 +91,7 @@ const typeDefs = gql`
         # Post
         createPost(data: createPostInput!): Post!
         updatePost(id: ID!, data: UpdatePostInput!): Post!
+        deletePost(id: ID!): Post!
 
         # Comment
         createComment(data: createCommentInput!): Comment!
@@ -170,7 +171,7 @@ const resolvers = {
             }
 
             const deleted_user = users[user_index]
-            
+
             users.splice(user_index, 1)
 
             return deleted_user;
@@ -201,6 +202,19 @@ const resolvers = {
             }
 
             return updated_post;
+        },
+        deletePost: (parent, { id }) => {
+            const post_index = posts.findIndex(post => post.id === id)
+
+            if(post_index === -1) {
+                throw new Error("Post not found")
+            }
+
+            const deleted_post = posts[post_index]
+
+            posts.splice(post_index, 1)
+
+            return deleted_post;
         },
 
         // Comment
