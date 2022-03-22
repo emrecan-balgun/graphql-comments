@@ -1,11 +1,13 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
+const { GraphQLServer, PubSub } = require('graphql-yoga');
+
+// const { ApolloServer, gql } = require('apollo-server');
+// const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 
 const { nanoid } = require('nanoid');
 
 const { users, posts, comments } = require('./data');
 
-const typeDefs = gql`
+const typeDefs = `
 
     # User
     type User{
@@ -290,14 +292,19 @@ const resolvers = {
     }
 };
 
-const server = new ApolloServer({            
-    typeDefs,
-    resolvers,
-    plugins: [
-        ApolloServerPluginLandingPageGraphQLPlayground({})
-    ]
-});
+// const server = new ApolloServer({            
+//     typeDefs,
+//     resolvers,
+//     plugins: [
+//         ApolloServerPluginLandingPageGraphQLPlayground({})
+//     ]
+// });
 
-server.listen().then(( { url } ) => {
-    console.log(`Server ready at ${url}`) 
-});
+const pubsub = new PubSub();
+const server = new GraphQLServer({ typeDefs, resolvers, context: { pubsub } });
+
+server.start(() => console.log("Server is running on localhost:4000"))
+
+// server.listen().then(( { url } ) => {
+//     console.log(`Server ready at ${url}`) 
+// });
