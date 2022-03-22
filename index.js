@@ -109,6 +109,10 @@ const typeDefs = `
         deleteComment(id: ID!): Comment!
         deleteAllComments: DeleteAllOutput!
     }
+
+    type Subscription {
+        userCreated: User!
+    }
 `;
 
 const resolvers = {
@@ -146,16 +150,15 @@ const resolvers = {
 
     Mutation: {
         // User
-        createUser: (parent, { data }) => {
-
+        createUser: (parent, { data }, { pubsub }) => {
             const user = { 
-                id: nanoid(), 
-                // fullName: args.data.fullName 
+                id: nanoid(),
+                // fullName: args.data.fullName
                 ...data
             }
 
             users.push(user);
-
+            pubsub.publish('userCreated', { userCreated: user })
 
             return user;
         },
@@ -289,8 +292,14 @@ const resolvers = {
                 count: length,
             }
         },
-    }
-};
+    },
+
+    Subscription: {
+        userCreated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated'),
+        },
+    },
+} 
 
 // const server = new ApolloServer({            
 //     typeDefs,
@@ -301,7 +310,13 @@ const resolvers = {
 // });
 
 const pubsub = new PubSub();
-const server = new GraphQLServer({ typeDefs, resolvers, context: { pubsub } });
+const server = new GraphQLServer({ 
+    typeDefs, 
+    resolvers, 
+    context: { 
+        pubsub 
+    } 
+});
 
 server.start(() => console.log("Server is running on localhost:4000"))
 
