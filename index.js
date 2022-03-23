@@ -112,6 +112,7 @@ const typeDefs = `
 
     type Subscription {
         userCreated: User!
+        userUpdated: User!
     }
 `;
 
@@ -173,6 +174,8 @@ const resolvers = {
                  ...users[user_index],
                  ...data
              }
+
+             pubsub.publish('userUpdated', { userUpdated: updated_user })
 
              return updated_user;
         },
@@ -297,6 +300,10 @@ const resolvers = {
     Subscription: {
         userCreated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated'),
+        },
+
+        userUpdated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userUpdated'),
         },
     },
 } 
