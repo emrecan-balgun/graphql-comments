@@ -113,6 +113,7 @@ const typeDefs = `
     type Subscription {
         userCreated: User!
         userUpdated: User!
+        userDeleted: User!
     }
 `;
 
@@ -163,7 +164,7 @@ const resolvers = {
 
             return user;
         },
-        updateUser: (parent, { id, data }) => {
+        updateUser: (parent, { id, data }, { pubsub }) => {
             const user_index = users.findIndex(user => user.id === id)
 
              if(user_index === -1) {
@@ -179,7 +180,7 @@ const resolvers = {
 
              return updated_user;
         },
-        deleteUser: (parent, { id }) => {
+        deleteUser: (parent, { id }, { pubsub }) => {
             const user_index = users.findIndex(user => user.id === id)
 
             if(user_index === -1) {
@@ -189,6 +190,8 @@ const resolvers = {
             const deleted_user = users[user_index]
 
             users.splice(user_index, 1)
+
+            pubsub.publish('userDeleted', { userDeleted: deleted_user })
 
             return deleted_user;
         },
@@ -304,6 +307,10 @@ const resolvers = {
 
         userUpdated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userUpdated'),
+        },
+
+        userDeleted: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userDeleted'),
         },
     },
 } 
