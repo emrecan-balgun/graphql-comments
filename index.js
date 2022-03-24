@@ -120,6 +120,7 @@ const typeDefs = `
         postCreated: Post!
         postUpdated: Post!
         postDeleted: Post!
+        postCount: Int!
 
         # Comment
         commentCreated: Comment!
@@ -225,6 +226,7 @@ const resolvers = {
 
             posts.push(post);
             pubsub.publish('postCreated', { postCreated: post })
+            pubsub.publish('postCount', { postCount: posts.length })
 
             return post;
         },
@@ -256,12 +258,15 @@ const resolvers = {
             posts.splice(post_index, 1)
 
             pubsub.publish('postDeleted', { postDeleted: deleted_post })
+            pubsub.publish('postCount', { postCount: posts.length })
 
             return deleted_post;
         },
-        deleteAllPosts: () => {
+        deleteAllPosts: (_, __, { pubsub }) => {
             const length = posts.length
             posts.splice(0, length)
+
+            pubsub.publish('postCount', { postCount: posts.length })
 
             return {
                 count: length,
@@ -341,6 +346,15 @@ const resolvers = {
         },
         postDeleted: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postDeleted'),
+        },
+        postCount: {
+            subscribe: (_, __, { pubsub }) => { 
+                setTimeout(() => {
+                    pubsub.publish('postCount', { postCount: posts.length })
+                });
+
+                return pubsub.asyncIterator('postCount') 
+            },
         },
 
         // Post
