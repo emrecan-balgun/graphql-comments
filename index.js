@@ -120,6 +120,11 @@ const typeDefs = `
         postCreated: Post!
         postUpdated: Post!
         postDeleted: Post!
+
+        # Comment
+        commentCreated: Comment!
+        commentUpdated: Comment!
+        commentDeleted: Comment!
     }
 `;
 
@@ -264,17 +269,18 @@ const resolvers = {
         },
 
         // Comment
-        createComment: (parent, { data }) => {
+        createComment: (parent, { data }, { pubsub }) => {
             const comment = {
                 id: nanoid(),
                 ...data
             }
 
             comments.push(comment);
+            pubsub.publish('commentCreated', { commentCreated: comment });
 
             return comment;
         } ,
-        updateComment: (parent, { id, data }) => {
+        updateComment: (parent, { id, data }, { pubsub }) => {
             const comment_index = comments.findIndex(comment => comment.id === id)
 
             if(comment_index === -1) {
@@ -286,9 +292,11 @@ const resolvers = {
                 ...data
             }
 
+            pubsub.publish('commentUpdated', { commentUpdated: updated_comment });
+
             return updated_comment;
         },
-        deleteComment: (parent, { id }) => {
+        deleteComment: (parent, { id }, { pubsub }) => {
             const comment_index = comments.findIndex(comment => comment.id === id)
 
             if(comment_index === -1) {
@@ -298,6 +306,7 @@ const resolvers = {
             const deleted_comment = comments[comment_index]
 
             comments.splice(comment_index, 1)
+            pubsub.publish('commentDeleted', { commentDeleted: deleted_comment })
 
             return deleted_comment;
         },
@@ -327,13 +336,22 @@ const resolvers = {
         postCreated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postCreated'),
         },
-
         postUpdated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postUpdated'),
         },
-
         postDeleted: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postDeleted'),
+        },
+
+        // Post
+        commentCreated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentCreated'),
+        },
+        commentUpdated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentUpdated'),
+        },
+        commentDeleted: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentDeleted'),
         },
     },
 } 
