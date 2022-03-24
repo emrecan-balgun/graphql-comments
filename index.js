@@ -115,6 +115,7 @@ const typeDefs = `
         userCreated: User!
         userUpdated: User!
         userDeleted: User!
+        userCount: Int!
 
         # Post
         postCreated: Post!
@@ -173,6 +174,8 @@ const resolvers = {
 
             users.push(user);
             pubsub.publish('userCreated', { userCreated: user })
+            pubsub.publish('userCount', { userCount: users.length })
+
 
             return user;
         },
@@ -204,12 +207,15 @@ const resolvers = {
             users.splice(user_index, 1)
 
             pubsub.publish('userDeleted', { userDeleted: deleted_user })
+            pubsub.publish('userCount', { userCount: users.length })
 
             return deleted_user;
         },
-        deleteAllUsers: () => {
+        deleteAllUsers: (_, __, { pubsub }) => {
             const length = users.length
             users.splice(0, length)
+
+            pubsub.publish('userCount', { userCount: users.length })
 
             return {
                 count: length,
@@ -335,6 +341,15 @@ const resolvers = {
         },
         userDeleted: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userDeleted'),
+        },
+        userCount: {
+            subscribe: (_, __, { pubsub }) => {
+                setTimeout(() => {
+                    pubsub.publish('userCount', { userCount: users.length })
+                });
+                
+                return pubsub.asyncIterator('userCount')
+            },
         },
 
         // Post
