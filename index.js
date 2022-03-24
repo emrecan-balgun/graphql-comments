@@ -124,7 +124,7 @@ const typeDefs = `
         postCount: Int!
 
         # Comment
-        commentCreated: Comment!
+        commentCreated(post_id: ID): Comment!
         commentUpdated: Comment!
         commentDeleted: Comment!
         commentCount: Int!
@@ -385,7 +385,13 @@ const resolvers = {
 
         // Post
         commentCreated: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentCreated'),
+            subscribe: withFilter(
+                (_, __, { pubsub }) => pubsub.asyncIterator('commentCreated'),
+
+                (payload, variables) => {
+                    return variables.post_id ? payload.commentCreated.post_id === variables.post_id : true;
+                }
+            ),
         },
         commentUpdated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentUpdated'),
