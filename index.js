@@ -111,9 +111,15 @@ const typeDefs = `
     }
 
     type Subscription {
+        # User
         userCreated: User!
         userUpdated: User!
         userDeleted: User!
+
+        # Post
+        postCreated: Post!
+        postUpdated: Post!
+        postDeleted: Post!
     }
 `;
 
@@ -205,7 +211,7 @@ const resolvers = {
         },
 
         // Post
-        createPost: (parent, { data }) => {
+        createPost: (parent, { data }, { pubsub }) => {
 
             const post = {
                 id: nanoid(),
@@ -213,10 +219,11 @@ const resolvers = {
             }
 
             posts.push(post);
+            pubsub.publish('postCreated', { postCreated: post })
 
             return post;
         },
-        updatePost: (parent, { id, data }) => {
+        updatePost: (parent, { id, data }, { pubsub }) => {
             const post_index = posts.findIndex(post => post.id === id)
 
             if(post_index === -1) {
@@ -228,9 +235,11 @@ const resolvers = {
                 ...data
             }
 
+            pubsub.publish('postUpdated', { postUpdated: updated_post })
+
             return updated_post;
         },
-        deletePost: (parent, { id }) => {
+        deletePost: (parent, { id }, { pubsub }) => {
             const post_index = posts.findIndex(post => post.id === id)
 
             if(post_index === -1) {
@@ -240,6 +249,8 @@ const resolvers = {
             const deleted_post = posts[post_index]
 
             posts.splice(post_index, 1)
+
+            pubsub.publish('postDeleted', { postDeleted: deleted_post })
 
             return deleted_post;
         },
@@ -301,16 +312,28 @@ const resolvers = {
     },
 
     Subscription: {
+        // User
         userCreated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated'),
         },
-
         userUpdated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userUpdated'),
         },
-
         userDeleted: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userDeleted'),
+        },
+
+        // Post
+        postCreated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postCreated'),
+        },
+
+        postUpdated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postUpdated'),
+        },
+
+        postDeleted: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postDeleted'),
         },
     },
 } 
