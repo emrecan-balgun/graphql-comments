@@ -1,4 +1,4 @@
-const { GraphQLServer, PubSub } = require('graphql-yoga');
+const { GraphQLServer, PubSub, withFilter } = require('graphql-yoga');
 
 // const { ApolloServer, gql } = require('apollo-server');
 // const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
@@ -118,7 +118,7 @@ const typeDefs = `
         userCount: Int!
 
         # Post
-        postCreated: Post!
+        postCreated(user_id: ID): Post!
         postUpdated: Post!
         postDeleted: Post!
         postCount: Int!
@@ -359,7 +359,13 @@ const resolvers = {
 
         // Post
         postCreated: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postCreated'),
+            subscribe: withFilter(
+                (_, __, { pubsub }) => pubsub.asyncIterator('postCreated'),
+                (payload, variables) => {
+
+                    return variables.user_id ? (payload.postCreated.user_id === variables.user_id) : true ;
+                }
+            ),
         },
         postUpdated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postUpdated'),
