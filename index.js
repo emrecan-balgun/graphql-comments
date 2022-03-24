@@ -127,6 +127,7 @@ const typeDefs = `
         commentCreated: Comment!
         commentUpdated: Comment!
         commentDeleted: Comment!
+        commentCount: Int!
     }
 `;
 
@@ -288,6 +289,7 @@ const resolvers = {
 
             comments.push(comment);
             pubsub.publish('commentCreated', { commentCreated: comment });
+            pubsub.publish('commentCount', { commentCount: comments.length });
 
             return comment;
         } ,
@@ -318,12 +320,15 @@ const resolvers = {
 
             comments.splice(comment_index, 1)
             pubsub.publish('commentDeleted', { commentDeleted: deleted_comment })
+            pubsub.publish('commentCount', { commentCount: comments.length });
 
             return deleted_comment;
         },
-        deleteAllComments: () => {
+        deleteAllComments: (_, __, { pubsub }) => {
             const length = comments.length
             comments.splice(0, length)
+
+            pubsub.publish('commentCount', { commentCount: comments.length });
 
             return {
                 count: length,
@@ -381,6 +386,15 @@ const resolvers = {
         },
         commentDeleted: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentDeleted'),
+        },
+        commentCount: {
+            subscribe: (_, __, { pubsub }) => { 
+                setTimeout(() => {
+                    pubsub.publish('commentCount', { commentCount: comments.length })
+                });
+                
+                return pubsub.asyncIterator('commentCount');
+            }
         },
     },
 } 
