@@ -1,5 +1,5 @@
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import * as Redis from 'ioredis';
+const { RedisPubSub } = require('graphql-redis-subscriptions');
+const Redis = require('ioredis');
 
 const options = {
   host: "redis-12022.c9.us-east-1-2.ec2.cloud.redislabs.com",
