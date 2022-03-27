@@ -1,0 +1,120 @@
+    # User
+    type User{
+        id: ID!
+        fullName: String!
+        age: Int!
+        posts: [Post!]!
+        comments: [Comment!]!
+    }
+
+    input createUserInput {
+        fullName: String!
+        age: Int!
+    }
+
+    input UpdateUserInput {
+        fullName: String
+        age: Int
+    }
+
+
+    # Post
+    type Post{
+        id: ID!
+        title: String!
+        user_id: ID!
+        user: User!
+        comments: [Comment!]!
+    }
+
+    input createPostInput {
+        title: String!
+        user_id: ID!
+    }
+
+    input UpdatePostInput {
+        title: String
+        user_id: ID
+    }
+
+    # Comment
+    type Comment{
+        id: ID!
+        text: String!
+        post_id: ID!
+        user: User!
+        post: Post!
+
+    }
+
+    input createCommentInput {
+        text: String! 
+        post_id: ID!
+        user_id: ID!
+    }
+
+    input UpdateCommentInput {
+        text: String
+        post_id: ID
+        user_id: ID
+    }
+
+    # Delete All Output
+    type DeleteAllOutput {
+        count: Int!
+    }
+
+    # Query
+    type Query{
+        # User
+        users: [User!]!
+        user(id: ID!): User!
+
+        # Post
+        posts: [Post!]!
+        post(id: ID!): Post!
+
+        # Comment
+        comments: [Comment!]!
+        comment(id: ID!): Comment!
+    }
+
+    type Mutation {
+        # User
+        createUser(data: createUserInput!): User!
+        updateUser(id: ID!, data: UpdateUserInput!): User!
+        deleteUser(id: ID!): User!
+        deleteAllUsers: DeleteAllOutput!
+
+        # Post
+        createPost(data: createPostInput!): Post!
+        updatePost(id: ID!, data: UpdatePostInput!): Post!
+        deletePost(id: ID!): Post!
+        deleteAllPosts: DeleteAllOutput!
+
+        # Comment
+        createComment(data: createCommentInput!): Comment!
+        updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+        deleteComment(id: ID!): Comment!
+        deleteAllComments: DeleteAllOutput!
+    }
+
+    type Subscription {
+        # User
+        userCreated: User!
+        userUpdated: User!
+        userDeleted: User!
+        userCount: Int!
+
+        # Post
+        postCreated(user_id: ID): Post!
+        postUpdated: Post!
+        postDeleted: Post!
+        postCount: Int!
+
+        # Comment
+        commentCreated(post_id: ID): Comment!
+        commentUpdated: Comment!
+        commentDeleted: Comment!
+        commentCount: Int!
+    }
