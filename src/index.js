@@ -1,6 +1,6 @@
 import { GraphQLServer } from 'graphql-yoga';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/type-defs';
+import resolvers from '@resolvers';
+import typeDefs from '@type-defs';
 import pubsub from './pubsub';
 import db from './data';
 
