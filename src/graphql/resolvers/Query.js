@@ -13,4 +13,4 @@ const Query =
     comment: (_, args, { db }) => db.comments.find(comment => comment.id === args.id),
 }
 
-module.exports = Query;
+module.exports.Query = Query;

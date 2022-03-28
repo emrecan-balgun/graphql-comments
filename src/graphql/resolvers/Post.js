@@ -4,4 +4,4 @@ const Post = {
     comments: (parent, _, { db }) => db.comments.filter((comment) => comment.post_id === parent.id)
 }
 
-module.exports = Post;
+module.exports.Post = Post;

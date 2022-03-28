@@ -7,7 +7,6 @@ const typeDefs = require('./graphql/type-defs');
 
 const db = require('./data');
 
-
 const server = new GraphQLServer({ 
     typeDefs, 
     resolvers, 
