@@ -1,4 +1,4 @@
-const Query = 
+export const Query = 
 {
     // User
     users: (_, __, { db }) => db.users,
@@ -12,5 +12,3 @@ const Query =
     comments: () => db.comments,
     comment: (_, args, { db }) => db.comments.find(comment => comment.id === args.id),
 }
-
-module.exports.Query = Query;

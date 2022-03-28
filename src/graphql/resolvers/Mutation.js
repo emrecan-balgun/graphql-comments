@@ -1,6 +1,6 @@
-const { nanoid } = require('nanoid');
+import { nanoid } from 'nanoid';
 
-const Mutation = {
+export const Mutation = {
     // User
     createUser: (parent, { data }, { pubsub, db }) => {
         const user = { 
@@ -171,5 +171,3 @@ const Mutation = {
         }
     },
 }
-
-module.exports.Mutation = Mutation;

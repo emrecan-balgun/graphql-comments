@@ -11,4 +11,5 @@ extractExports: fileExport => {
   } 
 })
 
-export default mergeResolvers(resolversArray);
+module.exports = mergeResolvers(resolversArray)
+// export default resolversArray;

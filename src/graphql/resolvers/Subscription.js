@@ -1,6 +1,6 @@
-const { withFilter } = require('graphql-yoga');
+import { withFilter } from 'graphql-yoga';
 
-const Subscription = {
+export const Subscription = {
     // User
     userCreated: {
         subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated'),
@@ -73,5 +73,3 @@ const Subscription = {
         }
     },
 }
-
-module.exports.Subscription = Subscription;
