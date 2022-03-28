@@ -3,12 +3,13 @@ const { GraphQLServer } = require('graphql-yoga');
 const pubsub = require('./pubsub');
 
 const resolvers = require('./graphql/resolvers')
+const typeDefs = require('./graphql/type-defs');
 
 const db = require('./data');
 
 
 const server = new GraphQLServer({ 
-    typeDefs: `${__dirname}/graphql/schema.graphql`, 
+    typeDefs, 
     resolvers, 
     context: { 
         pubsub,
