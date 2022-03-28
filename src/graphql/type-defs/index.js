@@ -4,4 +4,4 @@ import { loadFilesSync } from '@graphql-tools/load-files'
 
 const typesArray = loadFilesSync(path.join(__dirname), { extensions: ['graphql'] })
 
-module.exports = mergeTypeDefs(typesArray)
+export default mergeTypeDefs(typesArray)

@@ -1,0 +1,4 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.Query=void 0;var Query={// User
+users:function users(_,__,_ref){var db=_ref.db;return db.users},user:function user(_,args,_ref2){var db=_ref2.db;return db.users.find(function(user){return user.id===args.id})},// Post
+posts:function posts(){return db.posts},post:function post(_,args,_ref3){var db=_ref3.db;return db.posts.find(function(post){return post.id===args.id})},// Comments
+comments:function comments(){return db.comments},comment:function comment(_,args,_ref4){var db=_ref4.db;return db.comments.find(function(comment){return comment.id===args.id})}};exports.Query=Query;
