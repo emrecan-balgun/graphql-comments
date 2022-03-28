@@ -1,21 +1,4 @@
-    # User
-    type User{
-        id: ID!
-        fullName: String!
-        age: Int!
-        posts: [Post!]!
-        comments: [Comment!]!
-    }
 
-    input createUserInput {
-        fullName: String!
-        age: Int!
-    }
-
-    input UpdateUserInput {
-        fullName: String
-        age: Int
-    }
 
 
     # Post
@@ -66,10 +49,6 @@
 
     # Query
     type Query{
-        # User
-        users: [User!]!
-        user(id: ID!): User!
-
         # Post
         posts: [Post!]!
         post(id: ID!): Post!
@@ -80,12 +59,6 @@
     }
 
     type Mutation {
-        # User
-        createUser(data: createUserInput!): User!
-        updateUser(id: ID!, data: UpdateUserInput!): User!
-        deleteUser(id: ID!): User!
-        deleteAllUsers: DeleteAllOutput!
-
         # Post
         createPost(data: createPostInput!): Post!
         updatePost(id: ID!, data: UpdatePostInput!): Post!
@@ -100,12 +73,6 @@
     }
 
     type Subscription {
-        # User
-        userCreated: User!
-        userUpdated: User!
-        userDeleted: User!
-        userCount: Int!
-
         # Post
         postCreated(user_id: ID): Post!
         postUpdated: Post!
