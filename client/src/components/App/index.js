@@ -4,21 +4,38 @@ import styles from './styles.module.css'
 
 import { List, message, Avatar, Skeleton, Divider } from 'antd';
 
-const data = [{
-  gender: 'female',
-  name: {
-    title: "Miss",
-    first: "آوینا",
-    last: "پارسا"
+const data = [
+  {
+    gender: 'female',
+    name: {
+      title: "Miss",
+      first: "آوینا",
+      last: "پارسا"
+    },
+    email: "awyn.prs@example.com",
+    picture: {
+      large: "https://randomuser.me/api/portraits/women/17.jpg",
+      medium: "https://randomuser.me/api/portraits/med/women/17.jpg",
+      thumbnail: "https://randomuser.me/api/portraits/thumb/women/17.jpg",
+    },
+    nat: "IR",
   },
-  email: "awyn.prs@example.com",
-  picture: {
-    large: "https://randomuser.me/api/portraits/women/17.jpg",
-    medium: "https://randomuser.me/api/portraits/med/women/17.jpg",
-    thumbnail: "https://randomuser.me/api/portraits/thumb/women/17.jpg",
-  },
-  nat: "IR",
-}]
+  {
+    gender: 'female',
+    name: {
+      title: "Miss",
+      first: "آوینا",
+      last: "پارسا"
+    },
+    email: "awyn.prs@example.com",
+    picture: {
+      large: "https://randomuser.me/api/portraits/women/17.jpg",
+      medium: "https://randomuser.me/api/portraits/med/women/17.jpg",
+      thumbnail: "https://randomuser.me/api/portraits/thumb/women/17.jpg",
+    },
+    nat: "IR",
+    },
+]
 
 function App() {
   return (
