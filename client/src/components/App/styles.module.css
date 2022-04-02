@@ -9,11 +9,12 @@
 }
 
 .headerMenu {
-    background: none;
+    background-color: transparent !important;
     border: none;
 }
 
-.menuItem {
+.menuItem a {
+    color: #fff !important;
     font-weight: bold;
     font-size: 16px;
 }
