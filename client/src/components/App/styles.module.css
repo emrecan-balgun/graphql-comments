@@ -12,3 +12,12 @@
     background: none;
     border: none;
 }
+
+.menuItem {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.col {
+    margin: 10px 0 30px 0;
+}
