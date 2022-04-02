@@ -1,21 +1,7 @@
 import { List, Avatar } from 'antd';
-
-import { gql, useQuery } from '@apollo/client';
-
+import { useQuery } from '@apollo/client';
 import Loading from 'components/Loading'
-
-const GET_POSTS = gql`
-    query getAllPosts {
-    posts{
-      id
-      title
-      description
-      user{
-        profile_photo
-      }
-    }
-  }
-`;
+import { GET_POSTS } from './queries'
 
 function Home() {
   const { loading, error, data } = useQuery(GET_POSTS);
