@@ -21,6 +21,7 @@ type Subscription {
 type Post{
     id: ID!
     title: String!
+    description: String
     user_id: ID!
     user: User!
     comments: [Comment!]!
@@ -28,10 +29,12 @@ type Post{
 
 input createPostInput {
     title: String!
+    description: String
     user_id: ID!
 }
 
 input UpdatePostInput {
     title: String
+    description: String
     user_id: ID
 }
