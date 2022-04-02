@@ -7,11 +7,15 @@ import {
 } from "@apollo/client";
 import 'antd/dist/antd.css';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import client from './apollo';
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </ApolloProvider>,
   document.getElementById('root')
 );
