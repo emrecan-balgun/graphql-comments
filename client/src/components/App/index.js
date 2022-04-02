@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 
 // pages
-import Home from '../../pages/Home/index'
+import Home from 'pages/Home/index'
 
 function App() {
   return (
