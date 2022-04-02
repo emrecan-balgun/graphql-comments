@@ -5,22 +5,26 @@ import styles from './styles.module.css'
 import { 
   Routes,
   Route,
-  Link
 } from 'react-router-dom';
+
 
 // pages
 import Home from 'pages/Home'
 import NewPost from 'pages/NewPost'
+import HeaderMenu from 'components/HeaderMenu';
 
 function App() {
   return (
     <div className={styles.container}>
       <Row justify="center">
-        <Col span={14} className={styles.content}>
-          <Routes>
-            <Route path="/new" element={<NewPost/>} />
-            <Route path="/" element={<Home/>} />
-          </Routes>    
+        <Col span={14}>
+          <HeaderMenu />
+          <div className={styles.content}>
+            <Routes>
+              <Route path="/new" element={<NewPost/>} />
+              <Route path="/" element={<Home/>} />
+            </Routes>
+          </div>    
         </Col>
         </Row>
     </div>
