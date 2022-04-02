@@ -9,7 +9,8 @@ import {
 } from 'react-router-dom';
 
 // pages
-import Home from 'pages/Home/index'
+import Home from 'pages/Home'
+import NewPost from 'pages/NewPost'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Row justify="center">
         <Col span={14} className={styles.content}>
           <Routes>
+            <Route path="/new" element={<NewPost/>} />
             <Route path="/" element={<Home/>} />
           </Routes>    
         </Col>
