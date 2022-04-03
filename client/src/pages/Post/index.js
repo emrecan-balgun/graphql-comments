@@ -34,7 +34,7 @@ function Post() {
          <div className={styles.description}>
             {post.description}
          </div>
-         <Comments />
+         <Comments post_id={id}/>
     </div>
   )
 }
