@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_POST } from './queries';
 import Loading from 'components/Loading';
-import { Typography } from 'antd';
-import { Image } from 'antd';
+import { Typography, Image } from 'antd';
 import styles from './styles.module.css';
+import Comments from './Comments';
 
 const { Title } = Typography;
 
@@ -34,6 +34,7 @@ function Post() {
          <div className={styles.description}>
             {post.description}
          </div>
+         <Comments />
     </div>
   )
 }
