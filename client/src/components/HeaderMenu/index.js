@@ -1,5 +1,5 @@
 import { Menu } from 'antd';
-import styles from './App/styles.module.css';
+import styles from './styles.module.css'
 
 import { Link, useLocation } from 'react-router-dom';
 

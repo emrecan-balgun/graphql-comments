@@ -1,0 +1,10 @@
+.headerMenu {
+    background-color: transparent !important;
+    border: none;
+}
+
+.menuItem a {
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 16px;
+}
