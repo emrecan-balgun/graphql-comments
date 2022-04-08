@@ -11,8 +11,8 @@ export const GET_POST = gql`
    }
 `;
 
-const commentsFragment = gql`
-fragment CommentsFragment on Comment{
+const commentFragment = gql`
+fragment CommentFragment on Comment{
     id
     text
     user{
@@ -26,18 +26,18 @@ export const GET_POST_COMMENTS = gql`
     query getComments($id: ID!){
     post(id: $id){
         comments{
-            ...CommentsFragment
+            ...CommentFragment
         }
     }
     }
-    ${commentsFragment}
+    ${commentFragment}
 `;
 
 export const COMMENTS_SUBSCRIPTIONS = gql`
     subscription CommentCreated($post_id: ID) {
         commentCreated(post_id: $post_id) {
-            ...CommentsFragment
+            ...CommentFragment
         }
     }
-    ${commentsFragment}
+    ${commentFragment}
 `;
