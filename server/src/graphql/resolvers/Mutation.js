@@ -125,7 +125,7 @@ export const Mutation = {
 
         db.comments.push(comment);
         pubsub.publish('commentCreated', { commentCreated: comment });
-        pubsub.publish('commentCount', { commentCount: comments.length });
+        pubsub.publish('commentCount', { commentCount: db.comments.length });
 
         return comment;
     } ,

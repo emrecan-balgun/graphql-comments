@@ -27,16 +27,14 @@ export const GET_POST_COMMENTS = gql`
 `;
 
 export const COMMENTS_SUBSCRIPTIONS = gql`
-subscription commentCreated($post_id: ID) {
-commentCreated(post_id: $post_id){
-    comments{
-    id
-    text
-    user{
-        fullName
-        profile_photo
+    subscription CommentCreated($post_id: ID) {
+        commentCreated(post_id: $post_id) {
+            id
+            text
+            user {
+                fullName
+                profile_photo
+            }
+        }
     }
-    }
-}
-}
 `;
