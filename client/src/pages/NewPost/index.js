@@ -1,6 +1,9 @@
+import { Typography } from 'antd';
+const { Title } = Typography;
+
 function NewPost() {
   return (
-    <h1>New Post</h1>
+    <Title level={3}>New Post</Title>
   )
 }
 
