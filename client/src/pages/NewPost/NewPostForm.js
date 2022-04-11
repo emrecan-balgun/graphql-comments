@@ -1,56 +1,72 @@
-import { Form, Input, Button, Select } from 'antd';
-import { useQuery } from '@apollo/client';
-import { GET_USERS } from './queries.js';
+import { Form, Input, Button, Select, message } from 'antd';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_USERS, NEW_POST_MUTATION } from './queries.js';
 import styles from './styles.module.css';
+import { useNavigate  } from 'react-router-dom';
 
 const { Option } = Select;
 
 function NewPostForm() {
+  const history = useNavigate();
+  const [savePost, { loading }] = useMutation(NEW_POST_MUTATION);
+
   const { loading: get_users_loading, data: users_data } = useQuery(GET_USERS);
 
-  console.log(users_data);
+  const handleSubmit = async (values) => {
+    try {
+      await savePost({
+        variables: {
+          data: values,
+        },
+      });
+      message.success("Post Saved!", 4);
+      history("/");
+    } catch (e) {
+      console.log(e);
+      message.error("Post Not Saved", 10);
+    }
+  };
   
   return (
     <Form
       name="basic"
-      initialValues={{ remember: true }}
-      // onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
+      onFinish={handleSubmit}
       autoComplete="off"
     >
       <Form.Item
-        name="username"
-        rules={[{ required: true, message: 'Please input title!' }]}
+        name="title"
+        rules={[{ required: true, message: 'Please input a title!' }]}
       >
-        <Input size="large" placeholder="Title"/>
+        <Input disabled={loading} size="large" placeholder="Title"/>
       </Form.Item>
 
       <Form.Item
-        name="shortDescription"
+        name="short_description"
       >
-        <Input size="large" placeholder="Short description" />
+        <Input disabled={loading} size="large" placeholder="Short description" />
       </Form.Item>
 
       <Form.Item
         name="description"
       >
-        <Input.TextArea size="large" placeholder="Description" />
+        <Input.TextArea disabled={loading} size="large" placeholder="Description" />
       </Form.Item>
 
       <Form.Item
         name="cover"
       >
-        <Input size="large" placeholder="Cover" />
+        <Input size="large" disabled={loading} placeholder="Cover" />
       </Form.Item>
 
       <Form.Item
-        name="user"
+        name="user_id"
         rules={[{ required: true, message: 'Please select user!' }]}
       >
         <Select 
-          disabled={get_users_loading} 
+          disabled={get_users_loading || loading} 
           loading={get_users_loading} 
-          placeholder="Select a user" size="large"
+          placeholder="Select a user" 
+          size="large"
         >
           {
             users_data && users_data.users.map((item) => 
@@ -65,7 +81,7 @@ function NewPostForm() {
       </Form.Item>
 
       <Form.Item className={styles.buttons}>
-        <Button size="large" type="primary" htmlType="submit">
+        <Button loading={loading} size="large" type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>

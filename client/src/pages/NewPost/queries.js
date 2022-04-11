@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_USERS = gql`
-    query getAllUsers {
-    users{
+  query getAllUsers {
+    users {
       id
       fullName
     }
@@ -10,10 +10,10 @@ export const GET_USERS = gql`
 `;
 
 export const NEW_POST_MUTATION = gql`
-mutation addNewPost($data: CreatePostInput!) {
-  createPost(data: $data) {
-    id
-    title
+  mutation addNewPost($data: createPostInput!) {
+    createPost(data: $data) {
+      id
+      title
+    }
   }
-}
 `;
