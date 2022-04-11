@@ -1,6 +1,7 @@
 import { Form, Input, Button, Select } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_USERS } from './queries.js';
+import styles from './styles.module.css';
 
 const { Option } = Select;
 
@@ -63,8 +64,8 @@ function NewPostForm() {
         </Select>
       </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
+      <Form.Item className={styles.buttons}>
+        <Button size="large" type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
