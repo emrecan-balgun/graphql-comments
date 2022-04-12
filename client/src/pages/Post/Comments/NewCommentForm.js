@@ -1,6 +1,13 @@
+import styles from './styles.module.css';
 import { Form, Input, Button, Select } from 'antd';
+import { useQuery } from '@apollo/client';
+import { GET_USERS } from './queries.js';
+
+const { Option } = Select;
 
 function NewCommentForm() {
+    const { loading: get_users_loading, data: users_data } = useQuery(GET_USERS);
+
     const handleSubmit = async(values) => {
         console.log(values);
     }
@@ -15,7 +22,7 @@ function NewCommentForm() {
         name="text"
         rules={[{ required: true, message: 'Please enter a message!' }]}
       >
-        <Input disabled={loading} size="large" placeholder="Text"/>
+        <Input size="medium" placeholder="Text"/>
       </Form.Item>
 
       <Form.Item
@@ -23,10 +30,10 @@ function NewCommentForm() {
         rules={[{ required: true, message: 'Please select user!' }]}
       >
         <Select 
-          disabled={get_users_loading || loading} 
+          disabled={get_users_loading} 
           loading={get_users_loading} 
           placeholder="Select a user" 
-          size="large"
+          size="medium"
         >
           {
             users_data && users_data.users.map((item) => 
@@ -41,7 +48,7 @@ function NewCommentForm() {
       </Form.Item>
 
       <Form.Item className={styles.buttons}>
-        <Button loading={loading} size="large" type="primary" htmlType="submit">
+        <Button size="medium" type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
