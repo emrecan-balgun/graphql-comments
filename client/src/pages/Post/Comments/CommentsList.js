@@ -70,6 +70,7 @@ function CommentsList({ post_id }) {
                         )}
                     />
 
+                    <Divider>New Comment</Divider>
                     <NewCommentForm />
                     </>
                 )          
