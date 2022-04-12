@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { Form, Input, Button, Select, message,  Row, Col } from 'antd';
+import { Form, Input, Button, Select, message } from 'antd';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_USERS, CREATE_COMMENT_MUTATION } from './queries.js';
 
@@ -30,45 +30,39 @@ function NewCommentForm({ post_id }) {
       onFinish={handleSubmit}
       autoComplete="off"
     >
-        <Row gutter={24}>
-            <Col span={10}>
-                <Form.Item
-                    name="user_id"
-                    rules={[{ required: true, message: 'Please select user!' }]}
-                    >
-                    <Select 
-                    disabled={get_users_loading} 
-                    loading={get_users_loading} 
-                    placeholder="Select a user" 
-                    size="medium"
-                    >
-                    {
-                        users_data && users_data.users.map((item) => 
-                        <Option 
-                        key={item.id} 
-                        value={item.id}>
-                            {item.fullName}
-                        </Option>
-                        )
-                    }
-                    </Select>
-                </Form.Item>
-            </Col>
-            <Col span={14}>
-                <Form.Item
-                    name="text"
-                    rules={[{ required: true, message: 'Please enter a message!' }]}
-                    >
-                    <Input size="medium" placeholder="Message"/>
-                </Form.Item>
-            </Col>
+        <Form.Item
+            name="user_id"
+            rules={[{ required: true, message: 'Please select user!' }]}
+            >
+            <Select 
+            disabled={get_users_loading} 
+            loading={get_users_loading} 
+            placeholder="Select a user" 
+            size="medium"
+            >
+            {
+                users_data && users_data.users.map((item) => 
+                <Option 
+                key={item.id} 
+                value={item.id}>
+                    {item.fullName}
+                </Option>
+                )
+            }
+            </Select>
+        </Form.Item>
+        <Form.Item
+            name="text"
+            rules={[{ required: true, message: 'Please enter a message!' }]}
+            >
+            <Input size="medium" placeholder="Message"/>
+        </Form.Item>
 
-            <Form.Item className={styles.buttons}>
-                <Button size="medium" type="primary" htmlType="submit">
-                Submit
-                </Button>
-            </Form.Item>
-        </Row>    
+        <Form.Item className={styles.buttons}>
+            <Button size="medium" type="primary" htmlType="submit">
+            Submit
+            </Button>
+        </Form.Item>
     </Form>
   )
 }
