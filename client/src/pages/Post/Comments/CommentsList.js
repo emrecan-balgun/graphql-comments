@@ -2,10 +2,10 @@ import { Divider, Button } from 'antd';
 import { Comment, List } from 'antd';
 import styles from './styles.module.css';
 import { useLazyQuery } from '@apollo/client'
-import { GET_POST_COMMENTS, COMMENTS_SUBSCRIPTIONS } from './queries';
+import { GET_POST_COMMENTS, COMMENTS_SUBSCRIPTIONS } from '../queries';
 import { useEffect, useState } from 'react';
 
-function Comments({ post_id }) {
+function CommentsList({ post_id }) {
     const [btnIsVisible, setBtnIsVisible] = useState(true);
 
     const [loadComments, { called, loading, data, subscribeToMore }] = useLazyQuery(GET_POST_COMMENTS, {
@@ -74,4 +74,4 @@ function Comments({ post_id }) {
   )
 }
 
-export default Comments
+export default CommentsList

@@ -4,7 +4,7 @@ import { GET_POST } from './queries';
 import Loading from 'components/Loading';
 import { Typography, Image } from 'antd';
 import styles from './styles.module.css';
-import Comments from './Comments';
+import CommentsList from './Comments/CommentsList';
 
 const { Title } = Typography;
 
@@ -34,7 +34,7 @@ function Post() {
          <div className={styles.description}>
             {post.description}
          </div>
-         <Comments post_id={id}/>
+         <CommentsList post_id={id}/>
     </div>
   )
 }
