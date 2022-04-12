@@ -1,15 +1,27 @@
 import styles from './styles.module.css';
-import { Form, Input, Button, Select, Row, Col } from 'antd';
-import { useQuery } from '@apollo/client';
-import { GET_USERS } from './queries.js';
+import { Form, Input, Button, Select, message,  Row, Col } from 'antd';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_USERS, CREATE_COMMENT_MUTATION } from './queries.js';
 
 const { Option } = Select;
 
-function NewCommentForm() {
+function NewCommentForm({ post_id }) {
+    const [createComment, { loading }] = useMutation(CREATE_COMMENT_MUTATION);
+
     const { loading: get_users_loading, data: users_data } = useQuery(GET_USERS);
 
     const handleSubmit = async(values) => {
-        console.log(values);
+        try {
+        await createComment({
+            variables: {
+            data: { ...values, post_id },
+            },
+        });
+        message.success("Comment added!", 3);
+        } catch (e) {
+        console.log(e);
+        message.error("Comment not added", 10);
+        }
     }
 
   return (

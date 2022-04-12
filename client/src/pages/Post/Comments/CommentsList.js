@@ -71,7 +71,7 @@ function CommentsList({ post_id }) {
                     />
 
                     <Divider orientation="left">New Comment</Divider>
-                    <NewCommentForm />
+                    <NewCommentForm post_id={post_id}/>
                     </>
                 )          
             }
