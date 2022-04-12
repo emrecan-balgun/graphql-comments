@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import { useLazyQuery } from '@apollo/client'
 import { GET_POST_COMMENTS, COMMENTS_SUBSCRIPTIONS } from '../queries';
 import { useEffect, useState } from 'react';
+import NewCommentForm from './NewCommentForm';
 
 function CommentsList({ post_id }) {
     const [btnIsVisible, setBtnIsVisible] = useState(true);
@@ -51,23 +52,27 @@ function CommentsList({ post_id }) {
         }
         </div>
             {
-                !loading && data &&
-                // <div>YORUMLAR</div>
-                <List
-                    className="comment-list"
-                    // header={`${data.length} replies`}
-                    itemLayout="horizontal"
-                    dataSource={data.post.comments}
-                    renderItem={item => (
-                    <li>
-                        <Comment
-                            author={item.user.fullName}
-                            avatar={item.user.profile_photo}
-                            content={item.text}
-                        />
-                    </li>
-                    )}
-                />
+                !loading && data && (
+                    <>
+                        <List
+                        className="comment-list"
+                        // header={`${data.length} replies`}
+                        itemLayout="horizontal"
+                        dataSource={data.post.comments}
+                        renderItem={item => (
+                        <li>
+                            <Comment
+                                author={item.user.fullName}
+                                avatar={item.user.profile_photo}
+                                content={item.text}
+                            />
+                        </li>
+                        )}
+                    />
+
+                    <NewCommentForm />
+                    </>
+                )          
             }
       </>
     
