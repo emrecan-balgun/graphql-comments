@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styles from './styles.module.css';
 import { Form, Input, Button, Select, message } from 'antd';
 import { useQuery, useMutation } from '@apollo/client';
@@ -10,6 +11,8 @@ function NewCommentForm({ post_id }) {
 
     const { loading: get_users_loading, data: users_data } = useQuery(GET_USERS);
 
+    const formRef = useRef();
+
     const handleSubmit = async(values) => {
         try {
         await createComment({
@@ -18,6 +21,7 @@ function NewCommentForm({ post_id }) {
             },
         });
         message.success("Comment added!", 3);
+        formRef.current.resetFields();
         } catch (e) {
         console.log(e);
         message.error("Comment not added", 10);
@@ -29,13 +33,14 @@ function NewCommentForm({ post_id }) {
       name="basic"
       onFinish={handleSubmit}
       autoComplete="off"
+      ref={formRef}
     >
         <Form.Item
             name="user_id"
             rules={[{ required: true, message: 'Please select user!' }]}
             >
             <Select 
-            disabled={get_users_loading} 
+            disabled={get_users_loading || loading} 
             loading={get_users_loading} 
             placeholder="Select a user" 
             size="medium"
@@ -55,11 +60,11 @@ function NewCommentForm({ post_id }) {
             name="text"
             rules={[{ required: true, message: 'Please enter a message!' }]}
             >
-            <Input size="medium" placeholder="Message"/>
+            <Input disabled={loading} size="medium" placeholder="Message"/>
         </Form.Item>
 
         <Form.Item className={styles.buttons}>
-            <Button size="medium" type="primary" htmlType="submit">
+            <Button loading={loading} size="medium" type="primary" htmlType="submit">
             Submit
             </Button>
         </Form.Item>
