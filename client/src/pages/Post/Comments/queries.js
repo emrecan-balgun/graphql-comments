@@ -8,3 +8,12 @@ export const GET_USERS = gql`
     }
   }
 `;
+
+export const CREATE_COMMENT_MUTATION = gql`
+    mutation addNewComment($data: createCommentInput!) {
+        createComment(data: $data) {
+        id
+    }
+  }
+`;
+
