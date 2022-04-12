@@ -47,9 +47,15 @@ function NewCommentForm() {
                     name="text"
                     rules={[{ required: true, message: 'Please enter a message!' }]}
                     >
-                    <Input size="medium" placeholder="Text"/>
+                    <Input size="medium" placeholder="Message"/>
                 </Form.Item>
             </Col>
+
+            <Form.Item className={styles.buttons}>
+                <Button size="medium" type="primary" htmlType="submit">
+                Submit
+                </Button>
+            </Form.Item>
         </Row>    
     </Form>
   )

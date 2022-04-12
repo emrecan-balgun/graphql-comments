@@ -45,7 +45,7 @@ function CommentsList({ post_id }) {
 
   return (
       <>
-        <Divider>Comments</Divider>
+        <Divider orientation="left">Comments</Divider>
         <div className={styles.showCommentsBtnContainer}>
         {
             btnIsVisible && <Button onClick={() => loadComments()}>Show Comments</Button>
@@ -70,7 +70,7 @@ function CommentsList({ post_id }) {
                         )}
                     />
 
-                    <Divider>New Comment</Divider>
+                    <Divider orientation="left">New Comment</Divider>
                     <NewCommentForm />
                     </>
                 )          
