@@ -12,6 +12,11 @@ import Post from './models/Post';
 // fake data
 import data from './data';
 
+// setTimeout(async () => {
+//     const posts = await Post.find();
+//     console.log(posts);
+// }, 2000)
+
 const server = new GraphQLServer({ 
     typeDefs, 
     resolvers, 
