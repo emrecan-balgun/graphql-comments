@@ -14,8 +14,8 @@ import Comment from './models/Comment';
 import data from './data';
 
 // setTimeout(async () => {
-//     const posts = await Post.find();
-//     console.log(posts);
+//     const comments = await Comment.find();
+//     console.log(comments);
 // }, 2000)
 
 const server = new GraphQLServer({ 
