@@ -8,6 +8,7 @@ db();
 
 import User from './models/User';
 import Post from './models/Post';
+import Comment from './models/Comment';
 
 // fake data
 import data from './data';
@@ -26,6 +27,7 @@ const server = new GraphQLServer({
         _db: {
             User,
             Post,
+            Comment,
         }
     } 
 });
