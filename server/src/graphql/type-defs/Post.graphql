@@ -23,7 +23,7 @@ type Post{
     description: String
     short_description: String
     cover: String
-    user_id: ID!
+    # user_id: ID!
     user: User!
     comments: [Comment!]!
 }
