@@ -7,10 +7,9 @@ export default () => {
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useFindAndModify: false,
         },
     );
 
     mongoose.connection.on("open", () => console.log("MongoDB: Connected!"));
-    mongoose.connection("error", err, (e) => console.log("MongoDB: Not Connected!", err));
+    mongoose.connection.on("err", (e) => console.log("MongoDB: Not Connedted!", e));
 }
