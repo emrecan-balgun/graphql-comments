@@ -4,5 +4,8 @@ export const Post = {
         return user;
     },
 
-    comments: (parent, _, { db }) => db.comments.filter((comment) => comment.post_id === parent.id)
+    comments: async (parent, _, { _db }) => {
+        const comments = await _db.Comment.find({ post: parent._id });
+        return comments;
+    }
 }
