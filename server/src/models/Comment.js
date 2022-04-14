@@ -6,6 +6,10 @@ const CommentSchema = new Schema({
         type: String,
         required: true,
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
 export default mongoose.model('Comment', CommentSchema);

@@ -14,7 +14,11 @@ const UserSchema = new Schema({
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post',
-    }]
+    }],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+    }],
 });
 
 export default mongoose.model('User', UserSchema);
