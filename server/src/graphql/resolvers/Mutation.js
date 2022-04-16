@@ -27,19 +27,17 @@ export const Mutation = {
 
          return updated_user;
     },
-    deleteUser: (parent, { id }, { pubsub, db }) => {
-        const user_index = db.users.findIndex(user => user.id === id)
+    deleteUser: async (parent, { id }, { pubsub, _db }) => {
+        const is_user_exist = await _db.User.findById(id)
 
-        if(user_index === -1) {
+        if(!is_user_exist) {
             throw new Error("User not found")
         }
 
-        const deleted_user = db.users[user_index]
-
-        db.users.splice(user_index, 1)
+        const deleted_user = await _db.User.findByIdAndDelete(id);
 
         pubsub.publish('userDeleted', { userDeleted: deleted_user })
-        pubsub.publish('userCount', { userCount: users.length })
+        // pubsub.publish('userCount', { userCount: users.length })
 
         return deleted_user;
     },
