@@ -2,17 +2,15 @@ import { nanoid } from 'nanoid';
 
 export const Mutation = {
     // User
-    createUser: (parent, { data }, { pubsub, db }) => {
-        const user = { 
-            id: nanoid(),
-            // fullName: args.data.fullName
+    createUser: async (parent, { data }, { pubsub, _db }) => {
+        const newUser = new _db.User({ 
             ...data
-        }
+        });
 
-        db.users.push(user);
+        const user = await newUser.save();
+
         pubsub.publish('userCreated', { userCreated: user })
-        pubsub.publish('userCount', { userCount: users.length })
-
+        // pubsub.publish('userCount', { userCount: users.length })
 
         return user;
     },
