@@ -41,14 +41,13 @@ export const Mutation = {
 
         return deleted_user;
     },
-    deleteAllUsers: (_, __, { pubsub, db }) => {
-        const length = db.users.length
-        db.users.splice(0, length)
+    deleteAllUsers: async (_, __, { pubsub, _db }) => {
+        const delete_users = await _db.User.deleteMany({});
 
-        pubsub.publish('userCount', { userCount: users.length })
+        // pubsub.publish('userCount', { userCount: users.length })
 
         return {
-            count: length,
+            count: delete_users.deletedCount,
         }
     },
 
