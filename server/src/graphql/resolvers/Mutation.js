@@ -14,17 +14,14 @@ export const Mutation = {
 
         return user;
     },
-    updateUser: (parent, { id, data }, { pubsub, db }) => {
-        const user_index = db.users.findIndex(user => user.id === id)
+    updateUser: async (parent, { id, data }, { pubsub, _db }) => {
+        const is_user_exist = await _db.User.findById(id);
 
-         if(user_index === -1) {
+         if(!is_user_exist) {
              throw new Error('User not found')
          }
 
-         const updated_user = db.users[user_index] = {
-             ...db.users[user_index],
-             ...data
-         }
+         const updated_user = await _db.User.findByIdAndUpdate(id, data, { new: true });
 
          pubsub.publish('userUpdated', { userUpdated: updated_user })
 
