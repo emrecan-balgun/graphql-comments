@@ -154,14 +154,11 @@ export const Mutation = {
 
         return commentDeleted;
     },
-    deleteAllComments: (_, __, { pubsub, db }) => {
-        const length = db.comments.length
-        db.comments.splice(0, length)
-
-        pubsub.publish('commentCount', { commentCount: comments.length });
+    deleteAllComments: async (_, __, { pubsub, _db }) => {
+        const delete_comments = await _db.Comment.deleteMany({});
 
         return {
-            count: length,
+            count: delete_comments.deletedCount,
         }
     },
 }
