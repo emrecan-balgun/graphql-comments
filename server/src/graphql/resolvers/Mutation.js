@@ -110,17 +110,22 @@ export const Mutation = {
     },
 
     // Comment
-    createComment: (parent, { data }, { pubsub, db }) => {
-        const comment = {
-            id: nanoid(),
-            ...data
-        }
+    createComment: async (_, { data }, { pubsub, _db }) => {
+        const newComment = new _db.Comment(data);
+        const createdComment = await newComment.save();
 
-        db.comments.push(comment);
-        pubsub.publish('commentCreated', { commentCreated: comment });
-        pubsub.publish('commentCount', { commentCount: db.comments.length });
+        const post = await _db.Post.findById(mongoose.Types.ObjectId(data.post));
+        post.comments.push(createdComment._id);
+        await post.save();
 
-        return comment;
+        const user = await _db.User.findById(mongoose.Types.ObjectId(data.user));
+        user.comments.push(createdComment._id);
+        await user.save();
+
+        pubsub.publish('commentCreated', { commentCreated: createdComment });
+        // pubsub.publish('commentCount', { commentCount: db.comments.length });
+
+        return createdComment;
     } ,
     updateComment: (parent, { id, data }, { pubsub, db }) => {
         const comment_index = db.comments.findIndex(comment => comment.id === id)
