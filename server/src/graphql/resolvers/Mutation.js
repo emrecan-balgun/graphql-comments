@@ -71,17 +71,14 @@ export const Mutation = {
 
         return post;
     },
-    updatePost: (parent, { id, data }, { pubsub, db }) => {
-        const post_index = db.posts.findIndex(post => post.id === id)
+    updatePost: async (_, { id, data }, { pubsub, _db }) => {
+        const is_post_exist = await _db.Post.findById(id);
 
-        if(post_index === -1) {
-            throw new Error ('Post not found')
-        }
+         if(!is_post_exist) {
+             throw new Error('Post not found')
+         }
 
-        const updated_post = db.posts[post_index] = {
-            ...db.posts[post_index],
-            ...data
-        }
+         const updated_post = await _db.Post.findByIdAndUpdate(id, data, { new: true });
 
         pubsub.publish('postUpdated', { postUpdated: updated_post })
 
