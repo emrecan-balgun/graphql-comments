@@ -140,20 +140,19 @@ export const Mutation = {
 
         return updated_comment;
     },
-    deleteComment: (parent, { id }, { pubsub, db }) => {
-        const comment_index = db.comments.findIndex(comment => comment.id === id)
+    deleteComment: async (_, { id }, { pubsub, _db }) => {
+        const is_comment_exist = await _db.Comment.findById(id)
 
-        if(comment_index === -1) {
+        if(!is_comment_exist) {
             throw new Error("Comment not found")
         }
 
-        const deleted_comment = db.comments[comment_index]
+        const commentDeleted = await _db.Comment.findByIdAndDelete(id);
 
-        db.comments.splice(comment_index, 1)
-        pubsub.publish('commentDeleted', { commentDeleted: deleted_comment })
-        pubsub.publish('commentCount', { commentCount: db.comments.length });
+        pubsub.publish('commentDeleted', { commentDeleted })
+        // pubsub.publish('commentCount', { commentCount: db.comments.length });
 
-        return deleted_comment;
+        return commentDeleted;
     },
     deleteAllComments: (_, __, { pubsub, db }) => {
         const length = db.comments.length
