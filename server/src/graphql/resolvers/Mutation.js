@@ -84,21 +84,20 @@ export const Mutation = {
 
         return updated_post;
     },
-    deletePost: (parent, { id }, { pubsub, db }) => {
-        const post_index = db.posts.findIndex(post => post.id === id)
+    deletePost: async (_, { id }, { pubsub, _db }) => {
+        const is_post_exist = await _db.Post.findById(id)
 
-        if(post_index === -1) {
+        if(!is_post_exist) {
             throw new Error("Post not found")
         }
 
-        const deleted_post = db.posts[post_index]
+        const postDeleted = await _db.Post.findByIdAndDelete(id);
+        const postCount = await _db.Post.countDocuments();
 
-        db.posts.splice(post_index, 1)
+        pubsub.publish('postDeleted', { postDeleted })
+        pubsub.publish('postCount', { postCount })
 
-        pubsub.publish('postDeleted', { postDeleted: deleted_post })
-        pubsub.publish('postCount', { postCount: posts.length })
-
-        return deleted_post;
+        return postDeleted;
     },
     deleteAllPosts: (_, __, { pubsub, db }) => {
         const length = db.posts.length
