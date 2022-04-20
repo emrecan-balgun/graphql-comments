@@ -127,17 +127,14 @@ export const Mutation = {
 
         return createdComment;
     } ,
-    updateComment: (parent, { id, data }, { pubsub, db }) => {
-        const comment_index = db.comments.findIndex(comment => comment.id === id)
+    updateComment: async (_, { id, data }, { pubsub, _db }) => {
+        const is_comment_exist = await _db.Comment.findById(id);
 
-        if(comment_index === -1) {
-            throw new Error ('Comment not found')
+        if(!is_comment_exist) {
+            throw new Error('Comment not found')
         }
 
-        const updated_comment = db.comments[comment_index] = {
-            ...db.comments[comment_index],
-            ...data
-        }
+        const updated_comment = await _db.Comment.findByIdAndUpdate(id, data, { new: true });
 
         pubsub.publish('commentUpdated', { commentUpdated: updated_comment });
 
