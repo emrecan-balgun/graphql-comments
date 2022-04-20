@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import mongoose from 'mongoose';
 
 export const Mutation = {
     // User
@@ -52,16 +53,21 @@ export const Mutation = {
     },
 
     // Post
-    createPost: (parent, { data }, { pubsub, db }) => {
+    createPost: async (_, { data }, { pubsub, _db }) => {
+        const newPost = new _db.Post({
+            ...data,
+        });
 
-        const post = {
-            id: nanoid(),
-            ...data
-        }
+        const post = await newPost.save();
 
-        db.posts.unshift(post);
+        const user = await _db.User.findById(mongoose.Types.ObjectId(data.user));
+        user.posts.push(post._id);
+        user.save();
+
+        const postCount = await _db.Post.countDocuments();
+
         pubsub.publish('postCreated', { postCreated: post })
-        pubsub.publish('postCount', { postCount: db.posts.length })
+        pubsub.publish('postCount', { postCount })
 
         return post;
     },
