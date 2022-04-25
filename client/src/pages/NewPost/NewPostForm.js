@@ -59,7 +59,7 @@ function NewPostForm() {
       </Form.Item>
 
       <Form.Item
-        name="user_id"
+        name="user"
         rules={[{ required: true, message: 'Please select user!' }]}
       >
         <Select 
@@ -71,8 +71,8 @@ function NewPostForm() {
           {
             users_data && users_data.users.map((item) => 
             <Option 
-              key={item.id} 
-              value={item.id}>
+              key={item._id} 
+              value={item._id}>
                 {item.fullName}
             </Option>
             )
