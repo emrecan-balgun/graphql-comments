@@ -46,7 +46,7 @@ export const Mutation = {
     deleteAllUsers: async (_, __, { pubsub, _db }) => {
         const delete_users = await _db.User.deleteMany({});
 
-        // pubsub.publish('userCount', { userCount: users.length })
+        pubsub.publish('userCount', { userCount: 0 })
 
         return {
             count: delete_users.deletedCount,
@@ -103,7 +103,7 @@ export const Mutation = {
     deleteAllPosts: async (_, __, { pubsub, _db }) => {
         const delete_posts = await _db.Post.deleteMany({});
 
-        pubsub.publish("postCount", { postCount: delete_posts.deletedCount })
+        pubsub.publish("postCount", { postCount: 0 })
 
         return {
             count: delete_posts.deletedCount,
@@ -160,6 +160,8 @@ export const Mutation = {
     deleteAllComments: async (_, __, { pubsub, _db }) => {
         const delete_comments = await _db.Comment.deleteMany({});
 
+        pubsub.publish("commentCount", { commentCount: 0 })
+        
         return {
             count: delete_comments.deletedCount,
         }
