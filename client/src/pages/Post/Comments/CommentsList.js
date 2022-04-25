@@ -60,7 +60,7 @@ function CommentsList({ post_id }) {
                         itemLayout="horizontal"
                         dataSource={data.post.comments}
                         renderItem={item => (
-                        <li>
+                        <li key={item._id}>
                             <Comment
                                 author={item.user.fullName}
                                 avatar={item.user.profile_photo}

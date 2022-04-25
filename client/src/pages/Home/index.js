@@ -16,8 +16,8 @@ function Home() {
         if( !subscriptionData.data) return prev;
         return {
           posts: [
-            ...prev.posts,
-            subscriptionData.data.postCreated
+            subscriptionData.data.postCreated,
+            ...prev.posts
           ]
         }
       },
