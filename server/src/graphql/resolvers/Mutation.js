@@ -9,9 +9,10 @@ export const Mutation = {
         });
 
         const user = await newUser.save();
+        const userCount = await _db.User.countDocuments();
 
         pubsub.publish('userCreated', { userCreated: user })
-        // pubsub.publish('userCount', { userCount: users.length })
+        pubsub.publish('userCount', { userCount })
 
         return user;
     },
@@ -122,8 +123,10 @@ export const Mutation = {
         user.comments.push(createdComment._id);
         await user.save();
 
+        const commentCount = await _db.Comment.countDocuments();
+
         pubsub.publish('commentCreated', { commentCreated: createdComment });
-        // pubsub.publish('commentCount', { commentCount: db.comments.length });
+        pubsub.publish('commentCount', { commentCount });
 
         return createdComment;
     } ,

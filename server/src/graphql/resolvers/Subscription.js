@@ -12,9 +12,11 @@ export const Subscription = {
         subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userDeleted'),
     },
     userCount: {
-        subscribe: (_, __, { pubsub, db }) => {
+        subscribe: async (_, __, { pubsub, _db }) => {
+            const userCount = await _db.User.countDocuments();
+
             setTimeout(() => {
-                pubsub.publish('userCount', { userCount: db.users.length })
+                pubsub.publish('userCount', { userCount })
             });
             
             return pubsub.asyncIterator('userCount')
@@ -38,9 +40,11 @@ export const Subscription = {
         subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('postDeleted'),
     },
     postCount: {
-        subscribe: (_, __, { pubsub, db }) => { 
+        subscribe: async (_, __, { pubsub, _db }) => { 
+            const postCount = await _db.Post.countDocuments();
+
             setTimeout(() => {
-                pubsub.publish('postCount', { postCount: db.posts.length })
+                pubsub.publish('postCount', { postCount })
             });
 
             return pubsub.asyncIterator('postCount') 
@@ -64,9 +68,11 @@ export const Subscription = {
         subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('commentDeleted'),
     },
     commentCount: {
-        subscribe: (_, __, { pubsub, db }) => { 
+        subscribe: async (_, __, { pubsub, _db }) => { 
+            const commentCount = await _db.Comment.countDocuments();
+
             setTimeout(() => {
-                pubsub.publish('commentCount', { commentCount: db.comments.length })
+                pubsub.publish('commentCount', { commentCount })
             });
             
             return pubsub.asyncIterator('commentCount');
