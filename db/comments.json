@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "62575e52f18b64a5e8655c0a"
+  },
+  "text": "Emron Hello!",
+  "user": {
+    "$oid": "625758427c69991a747d029f"
+  },
+  "post": {
+    "$oid": "62575be9f18b64a5e8655c07"
+  }
+},{
+  "_id": {
+    "$oid": "625763aef18b64a5e8655c41"
+  },
+  "text": "Polat Hello!",
+  "user": {
+    "$oid": "625761d0f18b64a5e8655c1a"
+  },
+  "post": {
+    "$oid": "625761eef18b64a5e8655c1d"
+  }
+},{
+  "_id": {
+    "$oid": "625766f5f18b64a5e8655c5f"
+  },
+  "text": "Emre yorum yaptı!",
+  "user": {
+    "$oid": "625758427c69991a747d029f"
+  },
+  "post": {
+    "$oid": "625761eef18b64a5e8655c1d"
+  }
+}]

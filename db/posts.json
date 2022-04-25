@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "62575be9f18b64a5e8655c07"
+  },
+  "title": "Deneme Post",
+  "description": "Deneme Description",
+  "cover": "https://wallpaperaccess.com/full/1493766.jpg",
+  "user": {
+    "$oid": "625758427c69991a747d029f"
+  },
+  "comments": [
+    {
+      "$oid": "62575e52f18b64a5e8655c0a"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "625761eef18b64a5e8655c1d"
+  },
+  "title": "Polat Post",
+  "description": "Polat Description",
+  "cover": "https://wallpaperaccess.com/full/1493766.jpg",
+  "user": {
+    "$oid": "625761d0f18b64a5e8655c1a"
+  },
+  "comments": [
+    {
+      "$oid": "625763aef18b64a5e8655c41"
+    },
+    {
+      "$oid": "625766f5f18b64a5e8655c5f"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "62608ebcd86062cc703b1389"
+  },
+  "title": "deneme title",
+  "description": "deneme description",
+  "user": {
+    "$oid": "625758427c69991a747d029f"
+  },
+  "comments": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "62609024b08f27bb83847d19"
+  },
+  "title": "birinci post",
+  "description": "deneme description",
+  "user": {
+    "$oid": "62609017b08f27bb83847d17"
+  },
+  "comments": [],
+  "__v": 0
+}]
