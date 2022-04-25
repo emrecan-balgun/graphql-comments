@@ -29,7 +29,7 @@ export const Subscription = {
             (_, __, { pubsub }) => pubsub.asyncIterator('postCreated'),
             (payload, variables) => {
 
-                return variables.user_id ? (payload.postCreated.user_id === variables.user_id) : true ;
+                return variables.user_id ? (payload.postCreated.user === variables.user_id) : true ;
             }
         ),
     },
@@ -57,7 +57,7 @@ export const Subscription = {
             (_, __, { pubsub }) => pubsub.asyncIterator('commentCreated'),
 
             (payload, variables) => {
-                return variables.post_id ? payload.commentCreated.post_id === variables.post_id : true;
+                return variables.post_id ? payload.commentCreated.post === variables.post_id : true;
             }
         ),
     },
